@@ -6,5 +6,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: make install
-      - run: make build --if-present
-      - run: make test --if-present
+      - run: make build
+      - run: make test
