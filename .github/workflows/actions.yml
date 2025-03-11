@@ -5,6 +5,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: make install
-      - run: make build
-      - run: make test
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
