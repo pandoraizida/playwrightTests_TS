@@ -2,15 +2,15 @@ import { Locator, Page, expect } from '@playwright/test';
 import { arrayOfString } from 'types';
 
 export default class TableElements {
-    constructor(public page: Page) {}
-    public createButton: Locator = this.page.getByRole('link').filter({ hasText: 'Create' });
-    public exportButton: Locator = this.page.getByRole('button', { name: 'Export' });
-    public tableRow: Locator = this.page.getByRole('row');
-    public tableTitle: Locator = this.tableRow.first();
-    public showInfoButton: Locator = this.page.getByRole('link').filter({ hasText: 'Show' });
-    public saveFormButton: Locator = this.page.getByRole('button', { name: 'Save' });
-    public deleteButton: Locator = this.page.getByRole('button', { name: 'Delete' });
-    public checkboxForAllItems: Locator = this.page.getByTestId('CheckBoxOutlineBlankIcon').first();
+    constructor(protected readonly page: Page) {};
+    public readonly createButton: Locator = this.page.getByRole('link').filter({ hasText: 'Create' });
+    public readonly exportButton: Locator = this.page.getByRole('button', { name: 'Export' });
+    public readonly tableRow: Locator = this.page.getByRole('row');
+    public readonly tableTitle: Locator = this.tableRow.first();
+    public readonly showInfoButton: Locator = this.page.getByRole('link').filter({ hasText: 'Show' });
+    public readonly saveFormButton: Locator = this.page.getByRole('button', { name: 'Save' });
+    public readonly deleteButton: Locator = this.page.getByRole('button', { name: 'Delete' });
+    public readonly checkboxForAllItems: Locator = this.page.getByTestId('CheckBoxOutlineBlankIcon').first();
 
     getErrorMessage(text: string): Locator {
         return this.page.getByRole('paragraph').filter({ hasText: text });
@@ -64,14 +64,14 @@ export default class TableElements {
       expect(await this.tableRow.count() - 1).toBe(number);
     }
 
-    async expectElementsVisability(elements: Record<string,string> | arrayOfString) {
+    async expectElementsVisability(elements: Record<string,string> | arrayOfString): Promise<void> {
       const elementsArray = Array.isArray(elements) ? elements : Object.keys(elements);
       elementsArray.forEach((elem) => {
         expect(this.getField(elem)).toBeVisible();
       })
     }
 
-    async expectItemContain(userdata: Record<string,string>, condition = true) {
+    async expectItemContain(userdata: Record<string,string>, condition = true): Promise<void> {
       const values = Object.values(userdata);
       const lastRow =  this.page.getByRole('row').last();
       if (condition) {
@@ -85,13 +85,13 @@ export default class TableElements {
       }
     }
 
-    async expectFieldHasValue(userdata: Record<string,string>) {
+    async expectFieldHasValue(userdata: Record<string,string>): Promise<void> {
       for (const item in userdata) {
         await expect(this.getField(item)).toHaveValue(userdata[item]);
       }
     }
 
-    async expectFieldIsNotEmpty(userdata: Record<string,string> | arrayOfString) {
+    async expectFieldIsNotEmpty(userdata: Record<string,string> | arrayOfString): Promise<void> {
       const fields = Array.isArray(userdata) ? userdata : Object.keys(userdata);
       for (const field of fields) {
         await expect(this.getField(field)).not.toBeEmpty();

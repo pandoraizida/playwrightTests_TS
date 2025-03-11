@@ -1,17 +1,16 @@
 import { Page, Locator, expect } from "@playwright/test";
-import TableElements from '../pages/tableElemen';
+import TableElements from './tableElement';
 import { taskDataType, taskStatusType } from "types";
 
 export default class BoardElements extends TableElements {
-    
-    constructor(public page: Page) { //public or private?
-        super(page);
+    constructor(page: Page) {
+       super(page);
     }
     
-    public taskCard: Locator = this.page.locator('.MuiCard-root');
-    public contentField: Locator = this.page.getByLabel('Content', { exact: true });
-    public firstTaskCard: Locator = this.taskCard.first();
-    public addFilterButton: Locator = this.page.getByRole('button', { name: 'Add Filter' });
+    public readonly taskCard: Locator = this.page.locator('.MuiCard-root');
+    public readonly contentField: Locator = this.page.getByLabel('Content', { exact: true });
+    public readonly firstTaskCard: Locator = this.taskCard.first();
+    public readonly addFilterButton: Locator = this.page.getByRole('button', { name: 'Add Filter' });
 
     currentTaskCard(text: string): Locator {
         return this.page.getByRole('button').filter({ hasText: text });
@@ -77,7 +76,7 @@ export default class BoardElements extends TableElements {
         await expect(this.contentField).toBeVisible();
     }
 
-    async expectTaskFieldHasValue(data: taskDataType) {
+    async expectTaskFieldHasValue(data: taskDataType): Promise<void> {
       await expect(this.page.getByRole('combobox').filter({ hasText: data.assignee })).toBeVisible();
       await expect(this.getField('Title')).toHaveValue(data.title);
       await expect(this.contentField).toHaveValue(data.content);
@@ -85,7 +84,7 @@ export default class BoardElements extends TableElements {
       await expect(this.page.getByRole('combobox').filter({ hasText: data.label })).toBeVisible();
     }
 
-    async expectTaskCardContain(text: string, data: string[]) {
+    async expectTaskCardContain(text: string, data: string[]): Promise<void> {
         const card = this.currentTaskCard(text);
         data.forEach((value) => {
             expect(card).toContainText(value);

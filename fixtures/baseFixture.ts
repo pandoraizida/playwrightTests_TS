@@ -1,8 +1,8 @@
 import { test as base } from '@playwright/test';
 import LoginPage from '../pages/loginPage';
 import AdminPage from '../pages/adminPage';
-import TableElements from '../pages/tableElemen';
-import BoardElements from '../pages/boardElemen';
+import TableElements from '../pages/tableElement';
+import BoardElements from '../pages/boardElement';
 
 export const test = base.extend<{
     loginPage: LoginPage;

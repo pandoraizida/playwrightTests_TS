@@ -1,10 +1,10 @@
 import { Locator, Page } from '@playwright/test';
 
 export default class AdminPage {
-    constructor(private page: Page) {}
+    constructor(private readonly page: Page) {}
 
-    public adminPageHeader: Locator = this.page.getByRole('heading');
-    public userProfileButton: Locator = this.page.getByAltText('Jane Doe');
+    public readonly adminPageHeader: Locator = this.page.getByRole('heading');
+    public readonly userProfileButton: Locator = this.page.getByAltText('Jane Doe');
 
     async logout(): Promise<void> {
       await this.userProfileButton.click();
